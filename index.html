@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>blog — feed</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>~/blog</h1>
+    <nav>
+      <a href="index.html">feed</a>
+      <a href="write.html">write</a>
+    </nav>
+  </header>
+
+  <p class="prompt">cat posts.json | head -n *</p>
+
+  <ul class="post-list" id="feed"></ul>
+
+  <script>
+    const LONG_THRESHOLD = 500; // chars - longer posts get their own page
+
+    fetch('posts.json')
+      .then(r => r.json())
+      .then(posts => {
+        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const ul = document.getElementById('feed');
+        posts.forEach(post => {
+          const li = document.createElement('li');
+          li.className = 'post-item';
+          const isLong = post.content.length > LONG_THRESHOLD;
+          const excerpt = isLong
+            ? post.content.slice(0, 300).trim() + '...'
+            : post.content;
+          li.innerHTML = `
+            <h2>${escapeHtml(post.title)}</h2>
+            <div class="post-meta">${post.date}</div>
+            <div class="post-excerpt">${escapeHtml(excerpt)}</div>
+            ${isLong ? `<a href="post.html?id=${post.id}" class="read-more">read more →</a>` : ''}
+          `;
+          ul.appendChild(li);
+        });
+      })
+      .catch(() => {
+        document.getElementById('feed').innerHTML =
+          '<li class="error">Failed to load posts. Is posts.json present?</li>';
+      });
+
+    function escapeHtml(s) {
+      const div = document.createElement('div');
+      div.textContent = s;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

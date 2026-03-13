@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>blog — post</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>~/blog</h1>
+    <nav>
+      <a href="index.html">feed</a>
+      <a href="write.html">write</a>
+    </nav>
+  </header>
+
+  <main id="content"></main>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+
+    if (!id) {
+      document.getElementById('content').innerHTML =
+        '<p class="error">No post id. <a href="index.html">Back to feed</a></p>';
+    } else {
+      fetch('posts.json')
+        .then(r => r.json())
+        .then(posts => {
+          const post = posts.find(p => p.id === id);
+          if (!post) {
+            document.getElementById('content').innerHTML =
+              '<p class="error">Post not found. <a href="index.html">Back to feed</a></p>';
+            return;
+          }
+          document.title = `blog — ${post.title}`;
+          document.getElementById('content').innerHTML = `
+            <p class="prompt">cat posts.json | grep "${escapeHtml(post.id)}"</p>
+            <article>
+              <h1>${escapeHtml(post.title)}</h1>
+              <div class="meta">${post.date}</div>
+              <div class="content">${escapeHtml(post.content)}</div>
+              <p style="margin-top:1.5rem"><a href="index.html">← back to feed</a></p>
+            </article>
+          `;
+        })
+        .catch(() => {
+          document.getElementById('content').innerHTML =
+            '<p class="error">Failed to load post. <a href="index.html">Back to feed</a></p>';
+        });
+    }
+
+    function escapeHtml(s) {
+      const div = document.createElement('div');
+      div.textContent = s;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

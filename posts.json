@@ -1,0 +1,14 @@
+[
+  {
+    "id": "welcome",
+    "title": "Welcome to the blog",
+    "date": "2025-03-13",
+    "content": "This is your first post. Use the write page to compose new entries, copy the output, and paste it into this file.\n\nKeep posts short to show only in the feed, or write longer ones to get their own page."
+  },
+  {
+    "id": "this-is-a-test",
+    "title": "This is a test",
+    "date": "2026-03-13",
+    "content": "This is my content"
+  }
+]
