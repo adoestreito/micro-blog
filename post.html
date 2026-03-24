@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>blog — post</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 </head>
 <body>
   <header>
@@ -39,7 +40,7 @@
             <article>
               <h1>${escapeHtml(post.title)}</h1>
               <div class="meta">${post.date}</div>
-              <div class="content">${escapeHtml(post.content)}</div>
+              <div class="content">${sanitizeHtml(post.content)}</div>
               <p style="margin-top:1.5rem"><a href="index.html">← back to feed</a></p>
             </article>
           `;
@@ -54,6 +55,9 @@
       const div = document.createElement('div');
       div.textContent = s;
       return div.innerHTML;
+    }
+    function sanitizeHtml(s) {
+      return DOMPurify.sanitize(s, { ALLOWED_TAGS: ['a', 'strong', 'em', 'b', 'i', 'u', 'br', 'code', 'p'] });
     }
   </script>
 </body>
