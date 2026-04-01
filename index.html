@@ -58,7 +58,11 @@
       return div.innerHTML;
     }
     function sanitizeHtml(s) {
-      return DOMPurify.sanitize(s, { ALLOWED_TAGS: ['a', 'strong', 'em', 'b', 'i', 'u', 'br', 'code', 'p'] });
+      return DOMPurify.sanitize(s, {
+        ALLOWED_TAGS: ['a', 'strong', 'em', 'b', 'i', 'u', 'br', 'code', 'p'],
+        ADD_TAGS: ['audio', 'source'],
+        ADD_ATTR: ['src', 'type', 'controls', 'preload', 'crossorigin', 'loop', 'muted', 'class', 'title']
+      });
     }
   </script>
 </body>

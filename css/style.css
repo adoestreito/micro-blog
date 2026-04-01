@@ -139,6 +139,13 @@ article .content {
   word-break: break-word;
 }
 
+article .content audio,
+.post-excerpt audio {
+  display: block;
+  max-width: 100%;
+  margin: 0.75rem 0;
+}
+
 /* Write page form */
 form {
   max-width: 600px;
