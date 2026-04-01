@@ -13,9 +13,8 @@
   },
   {
     "id": "tts",
-    "title": "It's able to talk!",
+    "title": "Click. Click. Talk.",
     "date": "2026-04-01",
-    "content": "We are used to work with computers. They are silent partners. You sit, watch the screen, type and click away. But computers never talk. They can play music, of course. Click. But they never talk. That's why I found Text-to-speech so interesting. I used cursor to build something quick: <a href=\"https://github.com/adoestreito/Text-to-spech-with-facebook-mms-tts-eng\">Text-to-spech-with-facebook-mms-tts-eng</a>. It is really simple. But also fun. Snappy. Click. Now let your computer do the talking."
+    "content":"We work with computers. Daily. Click. They are silent partners. Sit, watch the screen, type, and click away. Click. They never talk back. Music, yes. Sound, yes. Talking, no. Click. That's changing. AI has made humans talk with computers. Mostly text, but we can talk. Text-to-speech is so interesting. Click. Open Cursor. Build something simple: <a href=\"https://github.com/adoestreito/Text-to-spech-with-facebook-mms-tts-eng\">text-to-speech-with-facebook-mms-tts-eng</a>. That's fun. Can run on my Mac. Snappy. Click. Now let the computers do the talking."
   }
-
 ]
