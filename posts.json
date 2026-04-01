@@ -5,10 +5,17 @@
     "date": "2026-03-13",
     "content": "Not again. I fumbled a shortcut and the Chrome toolbar vanished. My journey began: scouring Google to restore my browser to its normal state. Forums, YouTube videos, AI conversations...eventually, I found the solution. Natural order is restored. But if I don't do something about it, it will inevitably happen again. Not anymore. SHIFT + COMMAND + F"
   },
-    {
+  {
     "id": "ai1",
-    "title": "AI is not API",
+    "title": "AI not API",
     "date": "2026-03-24",
     "content": "Artificial Intelligence. AI. ChatGPT. Gemini. Claude. It's everywhere. And it's awesome. But scary, really scary. I wanted to look into how to build things with AI. Didn't want to go through API route. But try to grasp a bit of what is under the hood. Enter Hugging Face. Very interesting. After a short while, I learned about sentiment analysis, question answering and summarization. All powered by Transformers. Check it out: <a href=\"https://github.com/adoestreito/ai-mini-projects-with-hf?tab=readme-ov-file\">ai-mini-projects-with-hf</a>"
+  },
+  {
+    "id": "tts",
+    "title": "It's able to talk!",
+    "date": "2026-04-01",
+    "content": "We are used to work with computers. They are silent partners. You sit, watch the screen, type and click away. But computers never talk. They can play music, of course. Click. But they never talk. That's why I found Text-to-speech so interesting. I used cursor to build something quick: <a href=\"https://github.com/adoestreito/Text-to-spech-with-facebook-mms-tts-eng\">Text-to-spech-with-facebook-mms-tts-eng</a>. It is really simple. But also fun. Snappy. Click. Now you can make your computer talk."
   }
+
 ]

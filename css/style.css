@@ -67,6 +67,21 @@ nav a {
   margin-right: 1.5rem;
 }
 
+nav a.nav-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+nav a.nav-home svg {
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+nav a.nav-home .nav-home-slash {
+  font-weight: 600;
+}
+
 /* Feed */
 .post-list {
   list-style: none;
