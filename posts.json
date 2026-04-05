@@ -16,10 +16,11 @@
     "title": "Click. Click. Talk.",
     "date": "2026-04-01",
     "content": "We work with computers. Daily. Click. They are silent partners. Sit, watch the screen, type, and click away. Click. They never talk back. Music, yes. Sound, yes. Talking, no. Click. That's changing. AI has made humans talk with computers. Mostly text, but we can talk. Text-to-speech is so interesting. Click. Open Cursor. Build something simple: <a href=\"https://github.com/adoestreito/Text-to-spech-with-facebook-mms-tts-eng\">text-to-speech-with-facebook-mms-tts-eng</a>. That's fun. Can run on my Mac. Snappy. Click. Now let the computers do the talking.\n\n<p>click</p><audio controls preload=\"metadata\" title=\"Click.\"><source src=\"audio/speech.wav\" type=\"audio/wav\"></audio>"
-  }, {
+  }, 
+  {
     "id": "'010agents",
     "title": "!Alone",
     "date": "2026-04-05",
-    "content": "Agent 1 - the creative (gemma2:9b) : generates text. The job is done. But not done. The machine is not alone. Agent 2 - The editor (llama3.1:8b): reviews and provides feedback. Add drama. Add comedy, Add suspense. Make it better. The text goes back and forward. Keep the tempo. 010 is always better than 001."
+    "content": "Agent 1 - the creative (gemma2:9b) : generates text. The job is done. But not done. The machine is not alone. Agent 2 - The editor (llama3.1:8b): reviews and provides feedback. Add drama. Add comedy, Add suspense. Make it better. The text goes back and forward. Keep the tempo. 010 better than 001. <a href=\"https://github.com/adoestreito/creative-editor-ai-agents-working-together\">creative-editor-ai-agents-working-together</a>"
   }
 ]
