@@ -8,6 +8,8 @@ Minimal static blog with a terminal aesthetic. Bright orange on dark, monospace,
 - **post.html** — Individual post view (for long posts)
 - **write.html** — Compose new posts; copy the JSON output and paste into `posts.json`
 - **posts.json** — All posts (add new entries here)
+- **ai/posts.md** — AI-friendly Markdown export (generated)
+- **scripts/generate_ai_markdown.py** — Generator for `ai/posts.md`
 
 ## Adding a post
 
@@ -17,6 +19,16 @@ Minimal static blog with a terminal aesthetic. Bright orange on dark, monospace,
 4. Open `posts.json` and add the entry to the array (with a comma between entries)
 
 Posts longer than 500 characters get a "read more" link to their own page.
+
+## AI / Markdown export
+
+Generate a Markdown version of your posts (useful for sharing with AIs or indexing):
+
+```bash
+python3 scripts/generate_ai_markdown.py
+```
+
+This writes `ai/posts.md` (newest first).
 
 ## Run locally
 
