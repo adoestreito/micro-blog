@@ -1,12 +1,25 @@
 ---
 title: AI Export
 format: markdown
-generated_at: 2026-04-10T09:38:54Z
+generated_at: 2026-04-11T22:31:35Z
 ---
 
 This file is generated from `posts.json`.
 
 ## Posts
+
+### R.A.G. Against the machine
+
+- id: `'RAGE`
+- date: `2026-04-11`
+
+Data is king. Specially in the LLM world. Ingest the vastness of human knowledge. Like a hungry pack of wolves. The whole internet. Answer any question. Build an army. Put them in front of a screen. Add more knowledge. Process data. Tear data apart. Make it bleed. Answer more questions.  But sometimes a specialist is needed. Not a know everything. Not a jack of all trades. But a focused individual. Eyes on the prize. Maybe, I can fine tune a model. Expensive. Complex and expensive. No, no. The goal is local. Move fast. Learn and move on.
+
+Including enough context in the prompt. Do you trust the user?. Really?. _Now you do what they told ya_. Some LLMs allow huge context window. The whole Lord of the rings AND the hobbit, I heard. But processing the whole content again and again. With every prompt. Waste of resources. Waste of time. Ain't got time for that.
+
+Retrieval augmented generation. RAG. Interesting. Inject Knowledge. Source material is provided. Chunked. Embedded in a DB. Ask a question. The system does not trust the user. _I won't do what you tell me_. Not blindly. A semantic search is done in the DB. Context is injected into the prompt. Chunks. Knowledge Injected. The LLM gets relevant context.Valuable information. The user gets a precise answer and less hallucinations. My little attempt at RAG here: [RAG against the machine](https://github.com/adoestreito/RAG-against-the-machine)
+
+---
 
 ### !Alone
 
