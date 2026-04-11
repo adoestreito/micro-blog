@@ -22,5 +22,12 @@
     "title": "!Alone",
     "date": "2026-04-05",
     "content": "Agent 1 - the creative (gemma2:9b) : generates text. The job is done. But not done. The machine is not alone. Agent 2 - The editor (llama3.1:8b): reviews and provides feedback. Add drama. Add comedy, Add suspense. Make it better. The text goes back and forward. Keep the tempo. 010 better than 001. <a href=\"https://github.com/adoestreito/creative-editor-ai-agents-working-together\">creative-editor-ai-agents-working-together</a>"
-  }
+  },
+  {
+    "id": "'RAGE",
+    "title": "R.A.G. Against the machine",
+    "date": "2026-04-11",
+    "content": "Data is king. Specially in the LLM world. Ingest the vastness of human knowledge. Like a hungry pack of wolves. The whole internet. Answer any question. Build an army. Put them in front of a screen. Add more knowledge. Process data. Tear data apart. Make it bleed. Answer more questions.  But sometimes a specialist is needed. Not a know everything. Not a jack of all trades. But a focused individual. Eyes on the prize. Maybe, I can fine tune a model. Expensive. Complex and expensive. No, no. The goal is local. Move fast. Learn and move on.
+Including enough context in the prompt. Do you trust the user?. Really?. <i>Now you do what they told ya</i>. Some LLMs allow huge context window. The whole Lord of the rings AND the hobbit, I heard. But processing the whole content again and again. With every prompt. Waste of resources. Waste of time. Ain't got time for that.
+Retrieval augmented generation. RAG. Interesting. Inject Knowledge. Source material is provided. Chunked. Embedded in a DB. Ask a question. The system does not trust the user. <i>I won't do what you tell me</i>. Not blindly. A semantic search is done in the DB. Context is injected into the prompt. Chunks. Knowledge Injected. The LLM gets relevant context.Valuable information. The user gets a precise answer and less hallucinations. My little attempt at RAG here: <a href=\"https://github.com/adoestreito/RAG-against-the-machine\">RAG against the machine"}
 ]
