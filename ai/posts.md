@@ -1,12 +1,21 @@
 ---
 title: AI Export
 format: markdown
-generated_at: 2026-04-11T22:31:35Z
+generated_at: 2026-04-27T21:37:21Z
 ---
 
 This file is generated from `posts.json`.
 
 ## Posts
+
+### My way or the highway
+
+- id: `'skills`
+- date: `2026-04-27`
+
+We. Humans. Are special creatures. Want something. You get what you want. But it has to be done the way you want it.  Do things my way. Skills. Provide Agents with procedural information. A recipe to achieve your desires. Constraint the agent actions to your desired step by step guide. A script that can be written in pseudocode. It's my way. Agents read the skill and work their magic. Humans are happy. It's my way My way or the highway. [skills-prototype](https://github.com/adoestreito/skills-prototype)
+
+---
 
 ### R.A.G. Against the machine
 
