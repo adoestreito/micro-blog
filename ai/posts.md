@@ -1,12 +1,21 @@
 ---
 title: AI Export
 format: markdown
-generated_at: 2026-05-17T05:50:27Z
+generated_at: 2026-05-17T06:09:28Z
 ---
 
 This file is generated from `posts.json`.
 
 ## Posts
+
+### On the origin of sentient machines
+
+- id: `'MCP`
+- date: `2026-05-17`
+
+Absorb. Suck. Draw. Sip. All the knowledge of the world. You get a still. A photograph. A brain in jar. Wise but useless. Add some electrodes. I/O. Let it talk. You get a chatbot. Usefull. Powerful. But. Resembles a parlor trick. All that power, no action. Now plug some tools. Browser. Notes. DBs. An agent is born. Adding tools = power. But integrating each is a lot of work. Make an universal connector. Model. Context.Protocol. Let it rip.
+
+---
 
 ### My way or the highway
 
@@ -14,15 +23,6 @@ This file is generated from `posts.json`.
 - date: `2026-04-27`
 
 We. Humans. Are special creatures. Want something. We get it. But we are not happy. It has to be done the way you want it.  Do things my way. Skills. Provide Agents with procedural information. A recipe to achieve your desires. Constraint the agent actions to your desired step by step guide. A script that can be written in pseudocode. It's my way. Agents read the skill and work their magic. Humans are happy. It's my way My way or the highway. [skills-prototype](https://github.com/adoestreito/skills-prototype)
-
----
-
-### On the origin of sentient machines
-
-- id: `'MCP`
-- date: `2026-04-27`
-
-Absorb. Suck. Draw. Sip. All the knowledge of the world. You get a still. A photograph. A brain in jar. Wise but useless. Add some electrodes. I/O. Let it talk. You get a chatbot. Usefull. Powerful. But. Resembles a parlor trick. All that power, no action. Now plug some tools. Browser. Notes. DBs. An agent is born. Adding tools = power. But integrating each is a lot of work. Make an universal connector. Model. Context.Protocol. Let it rip.
 
 ---
 
