@@ -1,63 +1,69 @@
-# Storage Room Inventory
+# Blog
 
-A one-screen personal inventory app for tracking what is in a storage room.
+Minimal static blog with a terminal aesthetic. Bright orange on dark, monospace, green/red accents.
 
-The frontend is static and Vercel-friendly. Persistence goes through a Vercel serverless API route, which writes to Supabase using a server-side service role key.
+## Structure
 
-## Features
+- **index.html** — Feed of all posts (newest first)
+- **post.html** — Individual post view (for long posts)
+- **write.html** — Compose new posts; copy the JSON output and paste into `posts.json`
+- **posts.json** — All posts (add new entries here)
+- **ai/posts.md** — AI-friendly Markdown export (generated)
+- **scripts/generate_ai_markdown.py** — Generator for `ai/posts.md`
 
-- Add, edit, and remove inventory rows on one screen
-- Track item name, quantity, optional description, optional expiration date, and optional location
-- Save the full edited list back to Supabase
-- Optional app password for personal use
-- No frontend build step or client-side Supabase secret
+## Adding a post
 
-## Project structure
+1. Open `write.html`
+2. Fill in title and content, click "Generate JSON"
+3. Copy the output
+4. Open `posts.json` and add the entry to the array (with a comma between entries)
 
-- `index.html` - inventory UI
-- `css/style.css` - app styles
-- `api/items.js` - Vercel API route for listing and saving items
-- `supabase/schema.sql` - Supabase table and trigger setup
-- `.env.example` - required environment variables
+Posts longer than 500 characters get a "read more" link to their own page.
 
-## Supabase setup
+## AI / Markdown export
 
-1. Create a Supabase project.
-2. Open the SQL editor.
-3. Run `supabase/schema.sql`.
-
-The schema enables row level security and does not create public policies. The Vercel API uses the service role key server-side, so browser users never receive database credentials.
-
-## Vercel setup
-
-Set these environment variables in Vercel:
+Generate a Markdown version of your posts (useful for sharing with AIs or indexing):
 
 ```bash
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-INVENTORY_APP_PASSWORD=choose-a-private-password
+python3 scripts/generate_ai_markdown.py
 ```
 
-`INVENTORY_APP_PASSWORD` is optional, but recommended. If it is set, the app asks for this password before loading or saving inventory data.
-
-Deploy the repository to Vercel as a static app with serverless functions. No build command is required.
+This writes `ai/posts.md` (newest first).
 
 ## Run locally
 
-Install the Vercel CLI if needed:
-
 ```bash
-npm install -g vercel
+# Any static server, e.g.
+python3 -m http.server 8000
+# or
+npx serve .
 ```
 
-Create a local environment file from the example:
+Then open http://localhost:8000
 
-```bash
-cp .env.example .env.local
-```
+## Deploy to GitHub Pages
 
-Then fill in your Supabase values and run:
+`write.html` is in `.gitignore` — it stays local only and is never published.
 
-```bash
-vercel dev
-```
+1. **Create a repo on GitHub**  
+   Go to [github.com/new](https://github.com/new), name it (e.g. `blog`), don’t add a README.
+
+2. **Init git and push (from your blog folder):**
+   ```bash
+   cd /Users/andresdoestreito/Documents/cursor/blog
+   git init
+   git add .
+   git commit -m "Initial blog"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+   git push -u origin main
+   ```
+   Replace `YOUR_USERNAME` and `YOUR_REPO` with your GitHub username and repo name.
+
+3. **Turn on GitHub Pages**  
+   Repo → **Settings** → **Pages** (sidebar) → **Source**: Deploy from branch → **Branch**: `main`, **Folder**: `/ (root)` → Save.
+
+4. **Wait a minute or two**, then open:
+   ```
+   https://YOUR_USERNAME.github.io/YOUR_REPO/
+   ```
