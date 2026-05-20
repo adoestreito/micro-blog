@@ -3,66 +3,282 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>blog — feed</title>
+  <title>Storage Room Inventory</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>~/blog</h1>
-    <nav>
-      <a href="https://www.adoestreito.com/" class="nav-home" title="www.adoestreito.com" aria-label="Home — adoestreito.com" rel="noopener noreferrer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        <span class="nav-home-slash">/</span>
-      </a>
-      <a href="index.html">feed</a>
-    </nav>
-  </header>
+  <main class="app-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Personal inventory</p>
+        <h1>What's in my storage room?</h1>
+        <p class="subtitle">Track item names, quantities, descriptions, expiration dates, and locations in one editable list.</p>
+      </div>
+      <button type="button" id="refresh-button" class="secondary-button">Refresh</button>
+    </header>
 
-  <p class="prompt">cat posts.json | head -n *</p>
+    <section id="auth-panel" class="panel hidden" aria-live="polite">
+      <h2>Unlock inventory</h2>
+      <p>This deployment is password protected. Enter the app password to continue.</p>
+      <form id="auth-form" class="auth-form">
+        <label for="app-password">Password</label>
+        <div class="inline-controls">
+          <input id="app-password" name="password" type="password" autocomplete="current-password">
+          <button type="submit">Unlock</button>
+        </div>
+      </form>
+    </section>
 
-  <ul class="post-list" id="feed"></ul>
+    <section class="toolbar panel" aria-live="polite">
+      <div>
+        <span class="stat-label">Items</span>
+        <strong id="item-count">0</strong>
+      </div>
+      <div>
+        <span class="stat-label">Total quantity</span>
+        <strong id="quantity-count">0</strong>
+      </div>
+      <div class="status" id="status">Loading inventory...</div>
+    </section>
+
+    <section class="panel">
+      <div class="list-header">
+        <h2>Inventory list</h2>
+        <button type="button" id="add-button">Add item</button>
+      </div>
+
+      <form id="inventory-form">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Item name</th>
+                <th>Qty</th>
+                <th>Description</th>
+                <th>Expiration</th>
+                <th>Location</th>
+                <th><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="items-body"></tbody>
+          </table>
+        </div>
+
+        <div id="empty-state" class="empty-state hidden">
+          No items yet. Add your first box, tool, cable, or pantry backup.
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="save-button">Save changes</button>
+          <button type="button" id="discard-button" class="secondary-button">Discard edits</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <template id="item-row-template">
+    <tr>
+      <td>
+        <input name="item_name" type="text" required maxlength="160" placeholder="Winter jackets">
+      </td>
+      <td>
+        <input name="quantity" type="number" required min="0" step="1" inputmode="numeric" value="1">
+      </td>
+      <td>
+        <textarea name="description" rows="2" maxlength="1000" placeholder="Optional notes"></textarea>
+      </td>
+      <td>
+        <input name="expiration_date" type="date">
+      </td>
+      <td>
+        <input name="location" type="text" maxlength="160" placeholder="Shelf A, blue bin">
+      </td>
+      <td>
+        <button type="button" class="danger-button" data-remove>Remove</button>
+      </td>
+    </tr>
+  </template>
 
   <script>
-    const LONG_THRESHOLD = 500; // chars - longer posts get their own page
+    const state = {
+      items: [],
+      password: localStorage.getItem('inventoryAppPassword') || ''
+    };
 
-    fetch('posts.json')
-      .then(r => r.json())
-      .then(posts => {
-        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-        const ul = document.getElementById('feed');
-        posts.forEach(post => {
-          const li = document.createElement('li');
-          li.className = 'post-item';
-          const isLong = post.content.length > LONG_THRESHOLD;
-          const excerpt = isLong
-            ? post.content.slice(0, 300).trim() + '...'
-            : post.content;
-          li.innerHTML = `
-            <h2>${escapeHtml(post.title)}</h2>
-            <div class="post-meta">${post.date}</div>
-            <div class="post-excerpt">${sanitizeHtml(excerpt)}</div>
-            ${isLong ? `<a href="post.html?id=${post.id}" class="read-more">read more →</a>` : ''}
-          `;
-          ul.appendChild(li);
+    const authPanel = document.getElementById('auth-panel');
+    const authForm = document.getElementById('auth-form');
+    const addButton = document.getElementById('add-button');
+    const discardButton = document.getElementById('discard-button');
+    const emptyState = document.getElementById('empty-state');
+    const form = document.getElementById('inventory-form');
+    const itemCount = document.getElementById('item-count');
+    const itemsBody = document.getElementById('items-body');
+    const quantityCount = document.getElementById('quantity-count');
+    const refreshButton = document.getElementById('refresh-button');
+    const saveButton = document.getElementById('save-button');
+    const statusEl = document.getElementById('status');
+    const template = document.getElementById('item-row-template');
+
+    addButton.addEventListener('click', () => {
+      renderRows([...readRows(), createEmptyItem()]);
+      setStatus('New item added. Save when you are ready.', 'pending');
+    });
+
+    authForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      state.password = new FormData(authForm).get('password').trim();
+      localStorage.setItem('inventoryAppPassword', state.password);
+      authPanel.classList.add('hidden');
+      loadItems();
+    });
+
+    discardButton.addEventListener('click', () => {
+      renderRows(state.items);
+      setStatus('Edits discarded.', 'pending');
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const items = readRows();
+
+      if (items.some((item) => !item.item_name.trim())) {
+        setStatus('Each item needs a name before saving.', 'error');
+        return;
+      }
+
+      saveButton.disabled = true;
+      setStatus('Saving changes...', 'pending');
+
+      try {
+        const savedItems = await apiRequest('/api/items', {
+          method: 'PUT',
+          body: JSON.stringify({ items })
         });
-      })
-      .catch(() => {
-        document.getElementById('feed').innerHTML =
-          '<li class="error">Failed to load posts. Is posts.json present?</li>';
+        state.items = savedItems;
+        renderRows(state.items);
+        setStatus('Inventory saved.', 'success');
+      } catch (error) {
+        handleApiError(error, 'Could not save inventory.');
+      } finally {
+        saveButton.disabled = false;
+      }
+    });
+
+    form.addEventListener('input', () => {
+      updateSummary();
+      setStatus('Unsaved changes.', 'pending');
+    });
+
+    refreshButton.addEventListener('click', loadItems);
+
+    loadItems();
+
+    async function loadItems() {
+      setStatus('Loading inventory...', 'pending');
+
+      try {
+        state.items = await apiRequest('/api/items');
+        renderRows(state.items);
+        setStatus('Inventory loaded.', 'success');
+      } catch (error) {
+        handleApiError(error, 'Could not load inventory.');
+      }
+    }
+
+    async function apiRequest(path, options = {}) {
+      const response = await fetch(path, {
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(state.password ? { 'x-inventory-password': state.password } : {}),
+          ...(options.headers || {})
+        }
       });
 
-    function escapeHtml(s) {
-      const div = document.createElement('div');
-      div.textContent = s;
-      return div.innerHTML;
+      if (response.status === 401) {
+        const error = new Error('Password required.');
+        error.code = 'AUTH_REQUIRED';
+        throw error;
+      }
+
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(payload.error || 'Request failed.');
+      }
+
+      return payload.items;
     }
-    function sanitizeHtml(s) {
-      return DOMPurify.sanitize(s, {
-        ALLOWED_TAGS: ['a', 'strong', 'em', 'b', 'i', 'u', 'br', 'code', 'p'],
-        ADD_TAGS: ['audio', 'source'],
-        ADD_ATTR: ['src', 'type', 'controls', 'preload', 'crossorigin', 'loop', 'muted', 'class', 'title']
+
+    function handleApiError(error, fallbackMessage) {
+      if (error.code === 'AUTH_REQUIRED') {
+        authPanel.classList.remove('hidden');
+        setStatus('Enter the app password to access your inventory.', 'error');
+        return;
+      }
+
+      setStatus(`${fallbackMessage} ${error.message}`, 'error');
+    }
+
+    function renderRows(items) {
+      itemsBody.innerHTML = '';
+
+      items.forEach((item) => {
+        const row = template.content.firstElementChild.cloneNode(true);
+        row.dataset.id = item.id || '';
+        row.querySelector('[name="item_name"]').value = item.item_name || '';
+        row.querySelector('[name="quantity"]').value = item.quantity ?? 1;
+        row.querySelector('[name="description"]').value = item.description || '';
+        row.querySelector('[name="expiration_date"]').value = item.expiration_date || '';
+        row.querySelector('[name="location"]').value = item.location || '';
+        row.querySelector('[data-remove]').addEventListener('click', () => {
+          row.remove();
+          updateSummary();
+          setStatus('Item removed. Save to persist this change.', 'pending');
+        });
+        itemsBody.appendChild(row);
       });
+
+      updateSummary();
+    }
+
+    function readRows() {
+      return [...itemsBody.querySelectorAll('tr')].map((row) => ({
+        id: row.dataset.id || undefined,
+        item_name: row.querySelector('[name="item_name"]').value.trim(),
+        quantity: Number(row.querySelector('[name="quantity"]').value || 0),
+        description: emptyToNull(row.querySelector('[name="description"]').value),
+        expiration_date: emptyToNull(row.querySelector('[name="expiration_date"]').value),
+        location: emptyToNull(row.querySelector('[name="location"]').value)
+      }));
+    }
+
+    function createEmptyItem() {
+      return {
+        item_name: '',
+        quantity: 1,
+        description: null,
+        expiration_date: null,
+        location: null
+      };
+    }
+
+    function emptyToNull(value) {
+      const trimmed = value.trim();
+      return trimmed ? trimmed : null;
+    }
+
+    function updateSummary() {
+      const rows = readRows();
+      const totalQuantity = rows.reduce((sum, item) => sum + (Number.isFinite(item.quantity) ? item.quantity : 0), 0);
+      itemCount.textContent = rows.length;
+      quantityCount.textContent = totalQuantity;
+      emptyState.classList.toggle('hidden', rows.length !== 0);
+    }
+
+    function setStatus(message, type = 'pending') {
+      statusEl.textContent = message;
+      statusEl.dataset.type = type;
     }
   </script>
 </body>

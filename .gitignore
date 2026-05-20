@@ -1,2 +1,5 @@
 write.html
 Linkedin-Posts/
+.env
+.env.local
+.env.*.local
